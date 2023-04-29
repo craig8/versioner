@@ -14,22 +14,22 @@ runs:
     - name: Determine the current release based on git tags
       shell: bash
       run: |       
-        # current_tag is the last tagged relese in the repository.   From there
+        # current_git_tag is the last tagged relese in the repository.   From there
         # we need to remove the v from the begining of the tag.
         if ! $(git tag -l "v*" = ''); then
           # uses -V which is version sort to keep it monotonically increasing.
-          current_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
+          current_git_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
         else
-          current_tag="${{ inputs.default-version }}"
+          current_git_tag="${{ inputs.default-version }}"
         fi
 
-        current_tag=${current_tag#?}
+        current_git_tag=${current_git_tag#?}
 
-        echo "The current tag is ${current_tag}"
+        echo "The current tag is ${current_git_tag}"
 
-        # current_tag is now the version we want to set our poetry version so
+        # current_git_tag is now the version we want to set our poetry version so
         # that we can bump the version
-        # poetry version ${current_tag}
+        # poetry version ${current_git_tag}
         # poetry version prerelease --no-interaction
 
         #NEW_TAG=v$(poetry version --short)
