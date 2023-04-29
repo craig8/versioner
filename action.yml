@@ -1,10 +1,10 @@
 name: versioner
 description: Determines the next version software release version based upon criteria
 inputs:
-  default-version: 
+  default-git-tag: 
     description: The default version if there are not any releases yet
     required: true
-    default: 0.0.1
+    default: 'v0.0.1'
 outputs:
   new-version: # id of output
     description: The new version for the release
@@ -20,7 +20,7 @@ runs:
           # uses -V which is version sort to keep it monotonically increasing.
           current_git_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
         else
-          current_git_tag="${{ inputs.default-version }}"
+          current_git_tag="${{ inputs.default-git-tag }}"
         fi
 
         current_git_tag=${current_git_tag#?}
