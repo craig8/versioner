@@ -10,12 +10,7 @@ outputs:
     description: The new version for the release
 runs:
   using: composite
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        
+  steps:        
     - name: Determine the current release based on git tags
       shell: bash
       run: |       
