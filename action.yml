@@ -1,0 +1,39 @@
+name: versioner
+description: Determines the next version software release version based upon criteria
+inputs:
+  default-version: 
+    description: The default version if there are not any releases yet
+    required: true
+    default: 0.0.1
+outputs:
+  new-version: # id of output
+    description: The new version for the release
+runs:
+  using: composite
+  steps:
+    - name: Determine the current release based on git tags
+      shell: bash
+      run: |       
+        # current_tag is the last tagged relese in the repository.   From there
+        # we need to remove the v from the begining of the tag.
+        if ! $(git tag -l "v*" = ''); then
+          # uses -V which is version sort to keep it monotonically increasing.
+          current_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
+        else
+          current_tag=v10.0.0
+        fi
+
+        current_tag=${current_tag#?}
+
+        echo "The current tag is ${current_tag}"
+
+        # current_tag is now the version we want to set our poetry version so
+        # that we can bump the version
+        # poetry version ${current_tag}
+        # poetry version prerelease --no-interaction
+
+        #NEW_TAG=v$(poetry version --short)
+
+        # Finally because we want to be able to use the variable in later
+        # steps we set a NEW_TAG environmental variable
+        echo "NEW_TAG=$(echo ${NEW_TAG})" >> $GITHUB_ENV
