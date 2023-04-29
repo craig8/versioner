@@ -20,7 +20,7 @@ runs:
           # uses -V which is version sort to keep it monotonically increasing.
           current_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
         else
-          current_tag=v10.0.0
+          current_tag=${{ inputs.default-version }}
         fi
 
         current_tag=${current_tag#?}
