@@ -11,6 +11,11 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        
     - name: Determine the current release based on git tags
       shell: bash
       run: |       
