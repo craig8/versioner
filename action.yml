@@ -47,6 +47,11 @@ runs:
         # Initial version if nothing has been released yet.
         default_version="${{ inputs.default-git-tag }}"
 
+        if [[ ${default_version[0]} != 'v' ]] then
+          echo "default-git-tag must start with v"
+          exit 1
+        fi
+
         # current_git_tag is the last tagged relese in the repository.   From there
         # we need to remove the v from the begining of the tag.
         results=$(git tag -l "v*" = '')
@@ -59,7 +64,7 @@ runs:
 
         # The two are the same so we are using the default
         if [[ "${current_git_tag}" == "${default_version}" ]] ; then
-          my_new_versions="v${default_version} ${default_version}"
+          my_new_versions="${default_version}"
         else
           my_new_versions=$(python bump_version.py ${{inputs.default-git-tag}}, ${current_git_tag})
         fi
