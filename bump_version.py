@@ -16,7 +16,9 @@ opts = parser.parse_args()
 # print(f"Inputs: {opts}")
 
 if opts.git_version is None:
-    print(opts.default)
+    if opts.default.startswith("v"):
+        opts.default = opts.default[1:]
+    print(f"v{opts.default} {opts.default}")
     sys.exit(0)
 
 if opts.git_version.startswith("v"):
