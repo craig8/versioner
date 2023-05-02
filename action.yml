@@ -5,6 +5,10 @@ inputs:
     description: The default version if there are not any releases yet
     required: true
     default: 'v0.0.1'
+  python-version:
+    description: The python version for the base to utilize
+    required: true
+    default: '3.10'
 outputs:
   new-git-tag: # id of output
     description: The new tag that should be published
@@ -22,6 +26,8 @@ runs:
     - name: Set up Python
       id: setup-python
       uses: actions/setup-python@v4
+      with:
+        python-version: ${{ input.python-version }}
     
     - name: Install Poetry
       uses: snok/install-poetry@v1.3.3
