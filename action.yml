@@ -64,19 +64,12 @@ runs:
 
         # The two are the same so we are using the default
         if [[ "${current_git_tag}" == "${default_version}" ]] ; then
-          my_new_versions="${default_version}"
+          my_new_version="${default_version}"
         else
-          my_new_versions=$(python bump_version.py ${{inputs.default-git-tag}}, ${current_git_tag})
+          my_new_version=$(python bump_version.py ${{inputs.default-git-tag}}, ${current_git_tag})
         fi
         
-        IFS=' '
-
-        read -a strarr <<< "$my_new_versions"
-
-        new_git_tag=$strarr[0]
-        new_poetry_version=$strarr[1]
-
-        echo "$new_git_tag and $new_poetry_version"
+        echo "New version is: ${my_new_version}"
 
         # current_git_tag is now the version we want to set our poetry version so
         # that we can bump the version

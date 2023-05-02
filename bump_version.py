@@ -37,4 +37,4 @@ else:
     # print("Bumping patch")
     out = ver.bump_patch()
 
-print(f"v{out} {out}")
+print(f"{out}")
