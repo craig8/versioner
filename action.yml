@@ -28,12 +28,10 @@ runs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
-    - name: CWD?
-      shell: bash
-      run: echo $(python -c 'import os;print(os.getcwd())')
+        
     - name: Install semver
       shell: bash
-      run: pip install -r requirements.txt
+      run: pip install semver
         
     - name: Install Poetry
       uses: snok/install-poetry@v1.3.3
