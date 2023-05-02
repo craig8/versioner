@@ -47,7 +47,7 @@ runs:
         # Initial version if nothing has been released yet.
         default_version="${{ inputs.default-git-tag }}"
 
-        if [[ ${default_version[0]} != 'v' ]]; then
+        if [[ ${default_version:0:1} != 'v' ]]; then
           echo "default-git-tag must start with v"
           exit 1
         fi
