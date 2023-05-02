@@ -6,11 +6,23 @@ inputs:
     required: true
     default: 'v0.0.1'
 outputs:
-  new-version: # id of output
-    description: The new version for the release
+  new-git-tag: # id of output
+    description: The new tag that should be published
+  new-version:
+    description: The new version number that should be used
+
 runs:
   using: composite
-  steps:        
+  steps: 
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      id: setup-python
+      uses: actions/setup-python@v4
+                   
     - name: Determine the current release based on git tags
       shell: bash
       run: |       
