@@ -28,7 +28,7 @@ runs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
-        
+
     - name: Install semver
       shell: bash
       run: pip install semver
@@ -43,7 +43,10 @@ runs:
                    
     - name: Determine the current release based on git tags
       shell: bash
-      run: |       
+      run: |
+        # Initial version if nothing has been released yet.
+        default_version="${{ inputs.default-git-tag }}"
+
         # current_git_tag is the last tagged relese in the repository.   From there
         # we need to remove the v from the begining of the tag.
         results=$(git tag -l "v*" = '')
