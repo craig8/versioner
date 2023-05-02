@@ -66,7 +66,7 @@ runs:
         if [[ "${current_git_tag}" == "${default_version}" ]] ; then
           my_new_version="${default_version}"
         else
-          my_new_version=$(python bump_version.py ${{inputs.default-git-tag}}, ${current_git_tag})
+          my_new_version=$(python bump_version.py ${{inputs.default-git-tag}} --git-version ${current_git_tag})
         fi
         
         echo "New version is: ${my_new_version}"
