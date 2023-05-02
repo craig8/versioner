@@ -28,7 +28,9 @@ runs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python-version }}
-    
+    - name: Install semver
+      run: pip install -r requirements.txt
+        
     - name: Install Poetry
       uses: snok/install-poetry@v1.3.3
       with:
@@ -42,16 +44,29 @@ runs:
       run: |       
         # current_git_tag is the last tagged relese in the repository.   From there
         # we need to remove the v from the begining of the tag.
-        if ! $(git tag -l "v*" = ''); then
-          # uses -V which is version sort to keep it monotonically increasing.
-          current_git_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
+        results=$(git tag -l "v*" = '')
+        if [[ $results == '' ]]; then
+            current_git_tag="${ default_version }"
         else
-          current_git_tag="${{ inputs.default-git-tag }}"
+            # uses -V which is version sort to keep it monotonically increasing.
+            current_git_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
         fi
 
-        current_git_tag=${current_git_tag#?}
+        # The two are the same so we are using the default
+        if [[ "${current_git_tag}" == "${default_version}" ]] ; then
+          my_new_versions="v${default_version} ${default_version}"
+        else
+          my_new_versions=$(python bump_version.py ${{inputs.default-git-tag}}, ${current_git_tag})
+        fi
+        
+        IFS=' '
 
-        echo "The current tag is ${current_git_tag}"
+        read -a strarr <<< "$my_new_versions"
+
+        new_git_tag=$strarr[0]
+        new_poetry_version=$strarr[1]
+
+        echo "$new_git_tag and $new_poetry_version"
 
         # current_git_tag is now the version we want to set our poetry version so
         # that we can bump the version
@@ -62,4 +77,4 @@ runs:
 
         # Finally because we want to be able to use the variable in later
         # steps we set a NEW_TAG environmental variable
-        echo "NEW_TAG=$(echo ${NEW_TAG})" >> $GITHUB_ENV
+        #echo "NEW_TAG=$(echo ${NEW_TAG})" >> $GITHUB_ENV
