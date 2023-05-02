@@ -29,6 +29,7 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
     - name: Install semver
+      shell: bash
       run: pip install -r requirements.txt
         
     - name: Install Poetry
