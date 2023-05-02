@@ -51,7 +51,7 @@ runs:
         # we need to remove the v from the begining of the tag.
         results=$(git tag -l "v*" = '')
         if [[ $results == '' ]]; then
-            current_git_tag="${ default_version }"
+            current_git_tag="${{ default_version }}"
         else
             # uses -V which is version sort to keep it monotonically increasing.
             current_git_tag=$(git tag -l "v*" | grep --invert-match '-' | sort --reverse -V  | sed -n 1p)
