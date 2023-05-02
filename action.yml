@@ -22,6 +22,14 @@ runs:
     - name: Set up Python
       id: setup-python
       uses: actions/setup-python@v4
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1.3.3
+      with:
+        version: 1.4
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        installer-parallel: true
                    
     - name: Determine the current release based on git tags
       shell: bash
