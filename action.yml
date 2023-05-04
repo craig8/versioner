@@ -130,7 +130,7 @@ runs:
       if: Boolean(${{ inputs.enable-github-release }})
       shell: bash
       run: |
-        echo "Github release enabled"
+        echo "Github release enabled Value is ${{ inputs.enable-github-release }}"
         if [[ "${{ inputs.github-token }}" != '' ]]; then
           echo "Github token is set"
         else
