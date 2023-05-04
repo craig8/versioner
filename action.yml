@@ -10,8 +10,6 @@ inputs:
     required: true
     default: '3.10'
 outputs:
-  new-git-tag: # id of output
-    description: The new tag that should be published
   new-version:
     description: The new version number that should be used
     value: ${{ steps.new-version.NEW_VERSION }}
