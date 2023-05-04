@@ -15,6 +15,7 @@ inputs:
     default: false
   is-prerelease:
     description: Is this a pre-release on github?
+    default: true
   github-token:
     description: Token for use to create the release on github
     required: false
@@ -149,3 +150,14 @@ runs:
         else
           echo "PYPI deployment disabled"
         fi
+    - name: Do github release
+      if: "${{ inputs.enable-github-release }}" == "true"
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/*.gz,dist/*.whl"
+        artifactErrorsFailBuild: true
+        generateReleaseNotes: true
+        commit: ${{ github.ref }}
+        prerelease: true
+        tag: ${{ env.NEW_TAG }}
+        token: ${{ secrets.GITHUB_TOKEN }}
