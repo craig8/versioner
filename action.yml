@@ -53,9 +53,9 @@ runs:
         virtualenvs-in-project: true
         installer-parallel: true
         
-    - name: Dump GitHub context
-      shell: bash
-      run: echo '${{ toJSON(github) }}'
+    # - name: Dump GitHub context
+    #   shell: bash
+    #   run: echo '${{ toJSON(github) }}'
     # - name: Dump job context
     #   run: echo '${{ toJSON(job) }}'
     # - name: Dump steps context
