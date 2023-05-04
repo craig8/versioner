@@ -151,7 +151,6 @@ runs:
     #       echo "PYPI deployment disabled"
     #     fi
     - name: Do github release
-      if: "${{ inputs.enable-github-release }}" == "true"
       uses: ncipollo/release-action@v1
       with:
         artifacts: "dist/*.gz,dist/*.whl"
