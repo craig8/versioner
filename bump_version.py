@@ -24,7 +24,14 @@ if opts.git_version is None:
 if opts.git_version.startswith("v"):
     opts.git_version = opts.git_version[1:]
 
-ver = semver.Version.parse(opts.git_version)
+try:
+    ver = semver.Version.parse(opts.git_version)
+except ValueError:
+    versplit = opts.git_version.split('.')
+    for index, item in enumerate(versplit):
+        versplit[index] = int(item)
+    ver = semver.Version.parse(".".join([str(s) for s in versplit]))
+
 # print(f"STarting: {ver}")
 
 if ver.prerelease:
