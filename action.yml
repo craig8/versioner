@@ -20,7 +20,7 @@ runs:
   steps: 
     - name: "Whats the path?"
       run: |
-        echo "The path is ${GITHUB_ACTION_PATH}"
+        echo "The path is ${GITHUB_ACTION_PATH} or is it ${{ github.action_path }}"
         exit 1
       shell: bash
 
