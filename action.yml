@@ -131,11 +131,9 @@ runs:
       shell: bash
       run: |
         if [[ "${{ inputs.enable-github-release }}" == "true" ]]; then
-          echo "Github release enabled Value is ${{ inputs.enable-github-release }}"
-          if [[ "${{ inputs.github-token }}" != '' ]]; then
-            echo "Github token is set"
-          else
+          if [[ "${{ inputs.github-token }}" == "" ]]; then
             echo "Github token not set"
+            exit 1
           fi
         else
           echo "Github release disabled"
@@ -144,9 +142,11 @@ runs:
       if: ${{ inputs.enable-publish-pypi }}
       shell: bash
       run: |
-        echo "PUBLISH pypi enabled"
-        if [[ "${{ inputs.pypi-token }}" != '' ]]; then
-          echo "PYPI token is set"
+        if [[ "${{ inputs.enable-github-release }}" == "true" ]]; then
+          if [[ "${{ inputs.pypi-token }}" == "" ]]; then
+            echo "PYPI token not set"
+            exit 1
+          fi
         else
-          echo "PYPI token not set"
+          echo "PYPI deployment disabled"
         fi
