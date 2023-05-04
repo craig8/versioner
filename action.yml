@@ -127,20 +127,18 @@ runs:
         echo "NEW_VERSION=${my_new_version}" >> $GITHUB_OUTPUT
 
     - name: If enabled release version
-      if: ${{ inputs.enable-github-release }} == 'true'
       shell: bash
       run: |
-        echo "I am running release...."
-        # if [[ "${{ inputs.enable-github-release }}" == "true" ]]; then
-        #   if [[ "${{ inputs.github-token }}" == "" ]]; then
-        #     echo "Github token not set"
-        #     exit 1
-        #   fi
-        # else
-        #   echo "Github release disabled"
-        # fi
+        if [[ "${{ inputs.enable-github-release }}" == "true" ]]; then
+          if [[ "${{ inputs.github-token }}" == "" ]]; then
+            echo "Github token not set"
+            exit 1
+          fi
+        else
+          echo "Github release disabled"
+        fi
+
     - name: If enabled pypi release
-      if: ${{ inputs.enable-publish-pypi }}
       shell: bash
       run: |
         if [[ "${{ inputs.enable-github-release }}" == "true" ]]; then
