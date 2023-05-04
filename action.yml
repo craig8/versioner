@@ -19,10 +19,16 @@ runs:
   using: composite
   steps: 
     - name: "Whats the path?"
+      id: runner-path
       run: |
         echo "The path is ${GITHUB_ACTION_PATH} or is it ${{ github.action_path }}"
-        exit 1
+        echo "ACTION_PATH=${{ github.action_path }}" >> "$GITHUB_OUTPUT"
       shell: bash
+
+    - name: "Path is now"
+      shell: bash
+      run: |
+        echo "The output is ${{ runner-path.outputs.ACTION_PATH }}"
 
     - name: Checkout code
       uses: actions/checkout@v3
