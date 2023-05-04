@@ -127,7 +127,7 @@ runs:
         echo "NEW_VERSION=${my_new_version}" >> $GITHUB_OUTPUT
 
     - name: If enabled release version
-      if: Boolean(${{ inputs.enable-github-release }}) == true
+      if: ${{ inputs.enable-github-release }} == 'true'
       shell: bash
       run: |
         echo "Github release enabled Value is ${{ inputs.enable-github-release }}"
