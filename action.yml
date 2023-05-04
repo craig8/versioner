@@ -14,6 +14,7 @@ outputs:
     description: The new tag that should be published
   new-version:
     description: The new version number that should be used
+    value: ${{ steps.new-version.NEW_VERSION }}
 
 runs:
   using: composite
@@ -61,7 +62,8 @@ runs:
     # - name: Dump matrix context
     #   run: echo '${{ toJSON(matrix) }}'
                    
-    - name: Determine the current release based on git tags
+    - name: Determine the new version based upon github releases that start with v
+      id: new-version
       shell: bash
       run: |
         # Use the output from before checkout for the location of the bump_version.py file.
@@ -104,3 +106,4 @@ runs:
         # Finally because we want to be able to use the variable in later
         # steps we set a NEW_TAG environmental variable
         #echo "NEW_TAG=$(echo ${NEW_TAG})" >> $GITHUB_ENV
+        echo "NEW_VERSION=${my_new_version}" >> $GITHUB_OUTPUT
