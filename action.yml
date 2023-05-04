@@ -9,6 +9,26 @@ inputs:
     description: The python version for the base to utilize
     required: true
     default: '3.10'
+  enable-github-release:
+    description: Enable releasing to github using bumped version
+    required: true
+    default: false
+  is-prerelease:
+    description: Is this a pre-release on github?
+  github-token:
+    description: Token for use to create the release on github
+    required: false
+    default: ''
+  enable-publish-pypi:
+    description: Enable publishing to pypi using bumped version
+    required: true
+    default: false
+  pypi-token:
+    description: Pypi token to use to publish.
+    required: false
+    default: ''
+  
+  
 outputs:
   new-version:
     description: The new version number that should be used
@@ -105,3 +125,22 @@ runs:
         # steps we set a NEW_TAG environmental variable
         #echo "NEW_TAG=$(echo ${NEW_TAG})" >> $GITHUB_ENV
         echo "NEW_VERSION=${my_new_version}" >> $GITHUB_OUTPUT
+
+    - name: If enabled release version
+      if: ${{ INPUT_ENABLE_GITHUB_RELEASE }}
+      run: |
+        echo "Github release enabled"
+        if [[ "${{ INPUT_GITHUB_TOKEN }}" != '' ]]; then
+          echo "Github token is set"
+        else
+          echo "Github token not set"
+        fi
+    - name: If enabled pypi release
+      if: ${{ INPUT_ENABLE_PUBLISH_PYPI }}
+      run: |
+        echo "PUBLISH pypi enabled"
+        if [[ "${{ INPUT_PYPI_TOKEN }}" != '' ]]; then
+          echo "PYPI token is set"
+        else
+          echo "PYPI token not set"
+        fi
