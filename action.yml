@@ -21,14 +21,8 @@ runs:
     - name: "Whats the path?"
       id: runner-path
       run: |
-        echo "The path is ${GITHUB_ACTION_PATH} or is it ${{ github.action_path }}"
         echo "ACTION_PATH=${{ github.action_path }}" >> "$GITHUB_OUTPUT"
       shell: bash
-
-    - name: "Path is now"
-      shell: bash
-      run: |
-        echo "The output is ${{ steps.runner-path.outputs.ACTION_PATH }}"
 
     - name: Checkout code
       uses: actions/checkout@v3
@@ -70,6 +64,9 @@ runs:
     - name: Determine the current release based on git tags
       shell: bash
       run: |
+        # Use the output from before checkout for the location of the bump_version.py file.
+        PY_BUMP="${{ steps.runner-path.outputs.ACTION_PATH }}/bump_version.py"
+
         # Initial version if nothing has been released yet.
         default_version="${{ inputs.default-git-tag }}"
 
@@ -92,7 +89,7 @@ runs:
         if [[ "${current_git_tag}" == "${default_version}" ]] ; then
           my_new_version="${default_version#?}"
         else
-          my_new_version=$(python ${GITHUB_ACTION_PATH}/bump_version.py ${{inputs.default-git-tag}} --git-version ${current_git_tag})
+          my_new_version=$(python ${PY_BUMP} ${{inputs.default-git-tag}} --git-version ${current_git_tag})
         fi
         
         echo "New version is: ${my_new_version}"
