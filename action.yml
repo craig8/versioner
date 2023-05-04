@@ -28,7 +28,7 @@ runs:
     - name: "Path is now"
       shell: bash
       run: |
-        echo "The output is ${{ runner-path.outputs.ACTION_PATH }}"
+        echo "The output is ${{ steps.runner-path.outputs.ACTION_PATH }}"
 
     - name: Checkout code
       uses: actions/checkout@v3
