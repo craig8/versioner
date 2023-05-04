@@ -130,11 +130,15 @@ runs:
       if: ${{ inputs.enable-github-release }} == 'true'
       shell: bash
       run: |
-        echo "Github release enabled Value is ${{ inputs.enable-github-release }}"
-        if [[ "${{ inputs.github-token }}" != '' ]]; then
-          echo "Github token is set"
+        if [[ "${{ inputs.enable-github-release }}" == "true" ]]; then
+          echo "Github release enabled Value is ${{ inputs.enable-github-release }}"
+          if [[ "${{ inputs.github-token }}" != '' ]]; then
+            echo "Github token is set"
+          else
+            echo "Github token not set"
+          fi
         else
-          echo "Github token not set"
+          echo "Github release disabled"
         fi
     - name: If enabled pypi release
       if: ${{ inputs.enable-publish-pypi }}
